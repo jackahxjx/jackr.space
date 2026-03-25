@@ -17,7 +17,6 @@
       justify-content: center;
       font-family: 'DM Mono', monospace;
       overflow: hidden;
-      cursor: none;
     }
 
     body::before {
@@ -29,29 +28,7 @@
       z-index: 0;
     }
 
-    #cur {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: #fff;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      mix-blend-mode: difference;
-    }
-    #cur-ring {
-      position: fixed;
-      width: 28px; height: 28px;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%,-50%);
-    }
-
     .scene {
-      perspective: 800px;
-      perspective-origin: 50% 50%;
       z-index: 1;
       margin-bottom: 2.2rem;
     }
@@ -62,10 +39,12 @@
       border: 1px solid #252525;
       border-radius: 13px;
       overflow: hidden;
-      will-change: transform;
       box-shadow: 0 0 0 0.5px #000, 0 24px 60px rgba(0,0,0,0.85);
       animation: fadeIn 0.5s cubic-bezier(.22,.68,0,1.2) both;
-      cursor: none;
+      /* tilt applied via JS transform */
+      transform: perspective(700px) rotateX(0deg) rotateY(0deg) scale(1);
+      transition: box-shadow 0.15s ease;
+      will-change: transform;
     }
 
     .titlebar {
@@ -85,14 +64,10 @@
       color: #333;
     }
 
-    .lights {
-      display: flex;
-      gap: 6px;
-    }
+    .lights { display: flex; gap: 6px; }
     .light {
       width: 12px; height: 12px;
       border-radius: 50%;
-      cursor: none;
       transition: filter 0.15s, transform 0.15s;
     }
     .light:hover { transform: scale(1.2); }
@@ -166,7 +141,6 @@
       border-radius: 50%;
       background: #fff;
       opacity: 0.15;
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
       animation: blink 2.5s infinite;
     }
     .footer-text {
@@ -193,8 +167,8 @@
     .heart { color: #fff; opacity: 0.4; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(14px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: perspective(700px) translateY(14px) scale(0.97); }
+      to   { opacity: 1; transform: perspective(700px) translateY(0) scale(1); }
     }
     @keyframes blink {
       0%, 100% { opacity: 0.1; }
@@ -204,11 +178,8 @@
 </head>
 <body>
 
-  <div id="cur"></div>
-  <div id="cur-ring"></div>
-
   <div class="scene">
-    <div class="window" id="window">
+    <div class="window" id="card">
 
       <div class="titlebar">
         <span class="titlebar-label">jack r</span>
@@ -246,63 +217,47 @@
   <div class="credit">made with <span class="heart">&lt;3</span> by jack</div>
 
   <script>
-    const cur  = document.getElementById('cur');
-    const ring = document.getElementById('cur-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    const card = document.getElementById('card');
+    const TILT = 25;
+    let targetX = 0, targetY = 0, curX = 0, curY = 0, inside = false;
 
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
-      cur.style.left = mx + 'px';
-      cur.style.top  = my + 'px';
+    // listen directly on the card element
+    card.addEventListener('mousemove', function(e) {
+      const r = this.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;   // 0 → 1 left to right
+      const py = (e.clientY - r.top)  / r.height;  // 0 → 1 top to bottom
+      targetY = (px - 0.5) * TILT;   // right side → positive Y rotation
+      targetX = (0.5 - py) * TILT;   // top → positive X rotation (tilt back)
     });
 
-    (function ringLoop() {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(ringLoop);
-    })();
-
-    const card = document.getElementById('window');
-    const TILT = 22;
-    let tRX = 0, tRY = 0, cRX = 0, cRY = 0, hovered = false;
-
-    document.addEventListener('mousemove', e => {
-      if (!hovered) return;
-      const rect = card.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width  - 0.5;
-      const ny = (e.clientY - rect.top)  / rect.height - 0.5;
-      tRY =  nx * TILT;
-      tRX = -ny * TILT;
-    });
-
-    card.addEventListener('mouseenter', () => { hovered = true; });
+    card.addEventListener('mouseenter', () => { inside = true; });
     card.addEventListener('mouseleave', () => {
-      hovered = false;
-      tRX = 0; tRY = 0;
+      inside = false;
+      targetX = 0;
+      targetY = 0;
     });
 
-    (function tiltLoop() {
-      cRX += (tRX - cRX) * 0.1;
-      cRY += (tRY - cRY) * 0.1;
-      const scale = hovered ? 1.03 : 1;
+    function loop() {
+      curX += (targetX - curX) * 0.12;
+      curY += (targetY - curY) * 0.12;
+
+      const s = inside ? 1.04 : 1;
       card.style.transform =
-        `perspective(800px) rotateX(${cRX}deg) rotateY(${cRY}deg) scale(${scale})`;
-      if (hovered) {
-        const sx = cRY * 1.8;
-        const sy = -cRX * 1.8;
+        `perspective(700px) rotateX(${curX}deg) rotateY(${curY}deg) scale(${s})`;
+
+      if (inside) {
         card.style.boxShadow = `
           0 0 0 1px #2a2a2a,
-          ${sx}px ${sy}px 50px rgba(255,255,255,0.06),
-          0 36px 90px rgba(0,0,0,0.9)
+          ${curY * 2}px ${-curX * 2}px 50px rgba(255,255,255,0.05),
+          0 30px 80px rgba(0,0,0,0.9)
         `;
       } else {
         card.style.boxShadow = '0 0 0 0.5px #000, 0 24px 60px rgba(0,0,0,0.85)';
       }
-      requestAnimationFrame(tiltLoop);
-    })();
+
+      requestAnimationFrame(loop);
+    }
+    loop();
   </script>
 </body>
 </html>
