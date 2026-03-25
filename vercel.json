@@ -1,5 +1,7 @@
 {
   "redirects": [
     { "source": "/about-me", "destination": "/about-me.html", "permanent": false },
-    { "source": "/gallery", "destination": "/gallery.html", "permanent": false }
+    { "source": "/gallery", "destination": "/gallery.html", "permanent": false },
+    { "source": "/authearth", "destination": "/authearth.html", "permanent": false }
+  ]
 }
