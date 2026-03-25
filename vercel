@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/about-me", "destination": "/about-me.html" },
-    { "source": "/gallery",  "destination": "/gallery.html"  }
-  ]
-}
