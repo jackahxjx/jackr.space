@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>jack r — about me</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; background: #080808;
+      display: flex; flex-direction: column; align-items: center;
+      font-family: 'DM Mono', monospace; overflow: hidden;
+    }
+    #bg {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: 0; opacity: 0.35; filter: grayscale(1);
+    }
+    #overlay { position: fixed; inset: 0; background: rgba(8,8,8,0.55); z-index: 1; pointer-events: none; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04; pointer-events: none; z-index: 2;
+    }
+    nav {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      z-index: 20; background: rgba(18,18,18,0.85); border: 1px solid #242424;
+      border-radius: 999px; padding: 5px; display: flex; align-items: center; gap: 2px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-bubble {
+      position: absolute; top: 5px; height: calc(100% - 10px);
+      background: #1f1f1f; border: 1px solid #333; border-radius: 999px;
+      transition: left 0.38s cubic-bezier(0.4,0,0.2,1), width 0.38s cubic-bezier(0.4,0,0.2,1);
+      pointer-events: none; z-index: 0;
+    }
+    .nav-item {
+      position: relative; z-index: 1; padding: 7px 18px;
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #555; border-radius: 999px; white-space: nowrap;
+      transition: color 0.25s; text-decoration: none;
+      font-family: 'DM Mono', monospace; user-select: none;
+    }
+    .nav-item:hover { color: #aaa; }
+    .nav-item.active { color: #e0e0e0; }
+    .main {
+      flex: 1; display: flex; align-items: center;
+      justify-content: center; width: 100%; z-index: 3;
+    }
+    .credit {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #333; white-space: nowrap; z-index: 10; transition: color 0.3s;
+    }
+    .credit:hover { color: #777; }
+    .heart { color: #fff; opacity: 0.35; }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="bg">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+  <div id="overlay"></div>
+
+  <nav id="nav">
+    <div class="nav-bubble" id="bubble"></div>
+    <a class="nav-item" href="/">Home</a>
+    <a class="nav-item active" href="/about-me">About Me</a>
+    <a class="nav-item" href="/gallery">Gallery</a>
+  </nav>
+
+  <div class="main">
+    <!-- your about me content goes here -->
+  </div>
+
+  <div class="credit">made with <span class="heart">&lt;3</span> by jack</div>
+
+  <script>
+    const nav    = document.getElementById('nav');
+    const bubble = document.getElementById('bubble');
+    const items  = nav.querySelectorAll('.nav-item');
+    function moveBubble(el) {
+      const nr = nav.getBoundingClientRect();
+      const er = el.getBoundingClientRect();
+      bubble.style.left  = (er.left - nr.left) + 'px';
+      bubble.style.width = er.width + 'px';
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const active = nav.querySelector('.nav-item.active');
+      if (active) { bubble.style.transition = 'none'; moveBubble(active); requestAnimationFrame(() => { bubble.style.transition = ''; }); }
+    });
+    items.forEach(item => {
+      item.addEventListener('mouseenter', () => moveBubble(item));
+      item.addEventListener('mouseleave', () => { const a = nav.querySelector('.nav-item.active'); if (a) moveBubble(a); });
+    });
+  </script>
+</body>
+</html>
