@@ -49,7 +49,6 @@
       transform: translate(-50%,-50%);
     }
 
-    /* perspective on the scene, NOT the card */
     .scene {
       perspective: 800px;
       perspective-origin: 50% 50%;
@@ -64,9 +63,7 @@
       border-radius: 13px;
       overflow: hidden;
       will-change: transform;
-      box-shadow:
-        0 0 0 0.5px #000,
-        0 24px 60px rgba(0,0,0,0.85);
+      box-shadow: 0 0 0 0.5px #000, 0 24px 60px rgba(0,0,0,0.85);
       animation: fadeIn 0.5s cubic-bezier(.22,.68,0,1.2) both;
       cursor: none;
     }
@@ -107,15 +104,15 @@
     .light.green:hover  { box-shadow: 0 0 14px rgba(40,200,64,1);  filter: brightness(1.2); }
 
     .card-body {
-      padding: 28px 20px 24px;
+      padding: 24px 20px 22px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 18px;
+      align-items: flex-start;
+      gap: 16px;
     }
 
     .avatar {
-      width: 80px; height: 80px;
+      width: 72px; height: 72px;
       border-radius: 50%;
       background: #1a1a1a;
       border: 1px solid #282828;
@@ -131,9 +128,8 @@
     .info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      text-align: center;
+      align-items: flex-start;
+      gap: 6px;
     }
 
     .name {
@@ -148,11 +144,10 @@
       font-size: 0.64rem;
       color: #383838;
       letter-spacing: 0.08em;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
       line-height: 1.6;
     }
+
+    .spacer { height: 14px; }
 
     .divider {
       width: 100%;
@@ -160,16 +155,10 @@
       background: linear-gradient(90deg, transparent, #1e1e1e, transparent);
     }
 
-    /* extra padding rows to make it taller */
-    .spacer {
-      height: 18px;
-    }
-
     .footer {
       padding: 12px 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 7px;
     }
     .dot {
@@ -218,7 +207,7 @@
   <div id="cur"></div>
   <div id="cur-ring"></div>
 
-  <div class="scene" id="scene">
+  <div class="scene">
     <div class="window" id="window">
 
       <div class="titlebar">
@@ -239,10 +228,7 @@
         </div>
         <div class="info">
           <div class="name">jack r</div>
-          <div class="meta">
-            <span>est. &mdash; mar 24, 2026</span>
-            <span>today &mdash; <span id="today"></span></span>
-          </div>
+          <div class="meta">est. &mdash; mar 24, 2026</div>
         </div>
         <div class="spacer"></div>
       </div>
@@ -260,22 +246,17 @@
   <div class="credit">made with <span class="heart">&lt;3</span> by jack</div>
 
   <script>
-    // today
-    const d = new Date();
-    const mo = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-    document.getElementById('today').textContent =
-      mo[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-
-    // cursor
     const cur  = document.getElementById('cur');
     const ring = document.getElementById('cur-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
+
     document.addEventListener('mousemove', e => {
       mx = e.clientX;
       my = e.clientY;
       cur.style.left = mx + 'px';
       cur.style.top  = my + 'px';
     });
+
     (function ringLoop() {
       rx += (mx - rx) * 0.16;
       ry += (my - ry) * 0.16;
@@ -284,7 +265,6 @@
       requestAnimationFrame(ringLoop);
     })();
 
-    // tilt
     const card = document.getElementById('window');
     const TILT = 22;
     let tRX = 0, tRY = 0, cRX = 0, cRY = 0, hovered = false;
@@ -292,10 +272,10 @@
     document.addEventListener('mousemove', e => {
       if (!hovered) return;
       const rect = card.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width  - 0.5; // -0.5 to 0.5
+      const nx = (e.clientX - rect.left) / rect.width  - 0.5;
       const ny = (e.clientY - rect.top)  / rect.height - 0.5;
-      tRY =  nx * TILT;   // mouse right  → tilt right
-      tRX = -ny * TILT;   // mouse up     → tilt back
+      tRY =  nx * TILT;
+      tRX = -ny * TILT;
     });
 
     card.addEventListener('mouseenter', () => { hovered = true; });
@@ -307,11 +287,9 @@
     (function tiltLoop() {
       cRX += (tRX - cRX) * 0.1;
       cRY += (tRY - cRY) * 0.1;
-
       const scale = hovered ? 1.03 : 1;
       card.style.transform =
         `perspective(800px) rotateX(${cRX}deg) rotateY(${cRY}deg) scale(${scale})`;
-
       if (hovered) {
         const sx = cRY * 1.8;
         const sy = -cRX * 1.8;
@@ -321,10 +299,8 @@
           0 36px 90px rgba(0,0,0,0.9)
         `;
       } else {
-        card.style.boxShadow =
-          '0 0 0 0.5px #000, 0 24px 60px rgba(0,0,0,0.85)';
+        card.style.boxShadow = '0 0 0 0.5px #000, 0 24px 60px rgba(0,0,0,0.85)';
       }
-
       requestAnimationFrame(tiltLoop);
     })();
   </script>
