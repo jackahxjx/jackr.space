@@ -44,10 +44,63 @@
     }
     .nav-item:hover { color: #aaa; }
     .nav-item.active { color: #e0e0e0; }
+
     .main {
       flex: 1; display: flex; align-items: center;
       justify-content: center; width: 100%; z-index: 3;
     }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 460px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: rgba(12,12,12,0.75);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 20px 24px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .card-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 0.78rem;
+      color: #888;
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .skill-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      border: 1px solid #222;
+      border-radius: 999px;
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.03);
+    }
+
     .credit {
       position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
       font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
@@ -71,7 +124,33 @@
   </nav>
 
   <div class="main">
-    <!-- your about me content goes here -->
+    <div class="cards">
+
+      <!-- ── BIO BOX ── type your bio between the <p> tags below -->
+      <div class="card">
+        <div class="card-label">bio</div>
+        <div class="card-text">
+          <p>
+            <!-- YOUR BIO HERE — replace this text -->
+            hey, i'm jack. write something about yourself here.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── SKILLS / INTERESTS BOX ── add or remove <span class="skill-tag"> items -->
+      <div class="card">
+        <div class="card-label">skills &amp; interests</div>
+        <div class="skills-list">
+          <!-- ADD / REMOVE TAGS HERE -->
+          <span class="skill-tag">tag one</span>
+          <span class="skill-tag">tag two</span>
+          <span class="skill-tag">tag three</span>
+          <span class="skill-tag">tag four</span>
+          <span class="skill-tag">tag five</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <div class="credit">made with <span class="heart">&lt;3</span> by jack</div>
