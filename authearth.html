@@ -18,7 +18,7 @@
       opacity: 0.04; pointer-events: none; z-index: 0;
     }
 
-    /* ── LOCK SCREEN ── */
+    /* LOCK */
     #lock {
       position: fixed; inset: 0; z-index: 10;
       display: flex; align-items: center; justify-content: center;
@@ -29,25 +29,16 @@
     .lock-window {
       width: 340px;
       background: rgba(15,15,15,0.92);
-      border: 1px solid #2a2a2a;
-      border-radius: 14px;
-      overflow: hidden;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid #2a2a2a; border-radius: 14px; overflow: hidden;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 8px 40px rgba(0,0,0,0.7);
     }
     .titlebar {
-      background: rgba(20,20,20,0.95);
-      border-bottom: 1px solid #1e1e1e;
-      padding: 11px 16px;
-      display: flex; align-items: center; gap: 10px;
-      user-select: none;
+      background: rgba(20,20,20,0.95); border-bottom: 1px solid #1e1e1e;
+      padding: 11px 16px; display: flex; align-items: center; gap: 10px; user-select: none;
     }
     .lights { display: flex; gap: 7px; }
-    .light {
-      width: 13px; height: 13px; border-radius: 50%;
-      transition: filter 0.15s, transform 0.15s;
-    }
+    .light { width: 13px; height: 13px; border-radius: 50%; transition: filter 0.15s, transform 0.15s; }
     .light.red    { background: #ff5f57; box-shadow: 0 0 6px rgba(255,95,87,0.5); }
     .light.yellow { background: #febc2e; box-shadow: 0 0 6px rgba(254,188,46,0.5); }
     .light.green  { background: #28c840; box-shadow: 0 0 6px rgba(40,200,64,0.5); }
@@ -56,81 +47,64 @@
     .lock-body { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
     .lock-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #333; }
     .lock-input {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid #222;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      color: #888;
-      letter-spacing: 0.1em;
-      outline: none;
-      width: 100%;
-      transition: border-color 0.2s;
+      background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 8px;
+      padding: 10px 14px; font-family: 'DM Mono', monospace;
+      font-size: 0.78rem; color: #888; letter-spacing: 0.1em;
+      outline: none; width: 100%; transition: border-color 0.2s;
     }
     .lock-input:focus { border-color: #333; color: #aaa; }
     .lock-input.error { border-color: #ff5f57; color: #ff5f57; }
     .lock-hint { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: #222; }
 
-    /* ── PROXY ── */
+    /* PROXY HUB */
     #proxy {
       position: fixed; inset: 0; z-index: 5;
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity 0.5s ease 0.3s;
     }
     #proxy.visible { opacity: 1; pointer-events: all; }
 
-    /* top bar */
-    .proxy-bar {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+    .hub-window {
+      width: 340px;
+      background: rgba(15,15,15,0.92);
+      border: 1px solid #2a2a2a; border-radius: 14px; overflow: hidden;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
     }
+    .hub-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; }
+    .hub-title { font-size: 0.78rem; color: #555; letter-spacing: 0.08em; }
+    .hub-sub { font-size: 0.6rem; color: #2a2a2a; letter-spacing: 0.12em; line-height: 1.8; text-transform: uppercase; }
 
+    /* BOTTOM NAV */
+    .proxy-bar {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
     .url-bar {
-      background: rgba(18,18,18,0.9);
-      border: 1px solid #242424;
-      border-radius: 999px;
-      padding: 6px 6px 6px 18px;
+      background: rgba(18,18,18,0.9); border: 1px solid #242424;
+      border-radius: 999px; padding: 6px 6px 6px 18px;
       display: flex; align-items: center; gap: 8px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      width: 360px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); width: 360px;
     }
     .url-input {
       flex: 1; background: none; border: none; outline: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem; letter-spacing: 0.08em; color: #666;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: #666;
     }
     .url-input::placeholder { color: #333; }
     .url-go {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid #2a2a2a;
-      border-radius: 999px;
-      padding: 5px 14px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: #555; cursor: pointer; transition: color 0.2s, border-color 0.2s;
+      background: rgba(255,255,255,0.05); border: 1px solid #2a2a2a;
+      border-radius: 999px; padding: 5px 14px;
+      font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #555; cursor: pointer; transition: color 0.2s, border-color 0.2s;
     }
     .url-go:hover { color: #aaa; border-color: #444; }
 
-    /* nav */
     .bottom-nav {
-      background: rgba(18,18,18,0.85);
-      border: 1px solid #242424;
-      border-radius: 999px;
-      padding: 5px;
+      background: rgba(18,18,18,0.85); border: 1px solid #242424;
+      border-radius: 999px; padding: 5px;
       display: flex; align-items: center; gap: 2px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      position: relative;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: relative;
     }
     .nav-bubble {
       position: absolute; top: 5px; height: calc(100% - 10px);
@@ -149,15 +123,18 @@
     .nav-btn.active { color: #e0e0e0; }
     .nav-btn svg { width: 16px; height: 16px; pointer-events: none; }
 
-    /* iframe */
-    #frame {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      border: none; z-index: 1;
-      background: #080808;
+    /* TOOLTIPS */
+    .nav-btn::after {
+      content: attr(data-label);
+      position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+      background: rgba(18,18,18,0.95); border: 1px solid #2a2a2a; border-radius: 6px;
+      padding: 4px 10px; font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #666; white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: opacity 0.15s ease;
     }
+    .nav-btn:hover::after { opacity: 1; }
 
-    /* credits overlay */
+    /* CREDITS */
     #credits {
       position: fixed; inset: 0; z-index: 25;
       display: flex; align-items: center; justify-content: center;
@@ -166,8 +143,7 @@
     }
     #credits.visible { opacity: 1; pointer-events: all; }
     .credits-win {
-      width: 280px;
-      background: rgba(15,15,15,0.96);
+      width: 280px; background: rgba(15,15,15,0.96);
       border: 1px solid #2a2a2a; border-radius: 14px; overflow: hidden;
       box-shadow: 0 8px 40px rgba(0,0,0,0.8);
     }
@@ -207,9 +183,22 @@
     </div>
   </div>
 
-  <!-- PROXY -->
+  <!-- PROXY HUB -->
   <div id="proxy">
-    <iframe id="frame" src="https://lite.duckduckgo.com/lite/" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+    <div class="hub-window">
+      <div class="titlebar">
+        <div class="lights">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+        <span class="titlebar-label">authearth</span>
+      </div>
+      <div class="hub-body">
+        <div class="hub-title">working on browsing</div>
+        <div class="hub-sub">use the file button below to open the proxy in a new tab</div>
+      </div>
+    </div>
 
     <div class="proxy-bar">
       <div class="url-bar">
@@ -220,32 +209,28 @@
       <div class="bottom-nav" id="bottomNav">
         <div class="nav-bubble" id="navBubble"></div>
 
-        <!-- browser -->
-        <button class="nav-btn active" id="btnBrowser" title="browser">
+        <button class="nav-btn active" id="btnBrowser" data-label="browser">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
           </svg>
         </button>
 
-        <!-- games -->
-        <button class="nav-btn" id="btnGames" title="games">
+        <button class="nav-btn" id="btnGames" data-label="games">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="6" width="20" height="12" rx="3"/>
             <path d="M6 12h4M8 10v4M15 11h.01M17 13h.01"/>
           </svg>
         </button>
 
-        <!-- file / proxy -->
-        <button class="nav-btn" id="btnFile" title="open proxy">
+        <button class="nav-btn" id="btnFile" data-label="open proxy">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
           </svg>
         </button>
 
-        <!-- credits -->
-        <button class="nav-btn" id="btnCredits" title="credits">
+        <button class="nav-btn" id="btnCredits" data-label="credits">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="8" x2="12" y2="12"/>
@@ -275,12 +260,12 @@
   </div>
 
   <script>
-    // ── KEY GATE ──
+    // KEY GATE
     const keyInput = document.getElementById('keyInput');
     const lock     = document.getElementById('lock');
     const proxy    = document.getElementById('proxy');
 
-    keyInput.addEventListener('keydown', (e) => {
+    keyInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') checkKey();
     });
 
@@ -299,7 +284,7 @@
       }
     }
 
-    // ── NAV BUBBLE ──
+    // NAV BUBBLE
     const bottomNav = document.getElementById('bottomNav');
     const navBubble = document.getElementById('navBubble');
     const navBtns   = bottomNav.querySelectorAll('.nav-btn');
@@ -334,12 +319,9 @@
       });
     });
 
-    // ── BUTTON ACTIONS ──
-    const frame = document.getElementById('frame');
-
+    // BUTTON ACTIONS
     document.getElementById('btnBrowser').addEventListener('click', () => {
       setActive(document.getElementById('btnBrowser'));
-      frame.src = 'https://lite.duckduckgo.com/lite/';
     });
 
     document.getElementById('btnGames').addEventListener('click', () => {
@@ -366,9 +348,9 @@
       setActive(document.getElementById('btnBrowser'));
     });
 
-    // ── URL BAR ──
+    // URL BAR — opens in new tab since no iframe
     document.getElementById('urlGo').addEventListener('click', goToUrl);
-    document.getElementById('urlInput').addEventListener('keydown', (e) => {
+    document.getElementById('urlInput').addEventListener('keydown', e => {
       if (e.key === 'Enter') goToUrl();
     });
 
@@ -376,7 +358,7 @@
       let val = document.getElementById('urlInput').value.trim();
       if (!val) return;
       if (!val.startsWith('http')) val = 'https://' + val;
-      frame.src = val;
+      window.open(val, '_blank');
     }
   </script>
 </body>
