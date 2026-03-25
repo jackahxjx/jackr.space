@@ -19,7 +19,6 @@
       overflow: hidden;
     }
 
-    /* video background */
     #bg {
       position: fixed;
       inset: 0;
@@ -30,7 +29,6 @@
       filter: grayscale(1);
     }
 
-    /* dark overlay so card stays readable */
     #overlay {
       position: fixed;
       inset: 0;
@@ -39,7 +37,6 @@
       pointer-events: none;
     }
 
-    /* grain */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -56,13 +53,15 @@
       perspective-origin: 50% 50%;
     }
 
+    /* wide landscape card matching screenshot */
     .window {
-      width: 420px;
-      background: rgba(15,15,15,0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      width: 480px;
+      height: 290px;
+      background: rgba(15,15,15,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid #2a2a2a;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       transform-style: preserve-3d;
       transform: rotateX(0deg) rotateY(0deg);
@@ -70,49 +69,58 @@
         0 8px 20px rgba(0,0,0,0.6),
         0 30px 70px rgba(0,0,0,0.5);
       will-change: transform;
-    }
-
-    .titlebar {
-      background: rgba(22,22,22,0.9);
-      border-bottom: 1px solid #1e1e1e;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      user-select: none;
-    }
-
-    .titlebar-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #333;
-    }
-
-    .lights { display: flex; gap: 8px; }
-    .light {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      transition: filter 0.15s, transform 0.15s;
-    }
-    .light:hover { transform: scale(1.2); }
-    .light.red    { background: #ff5f57; box-shadow: 0 0 7px rgba(255,95,87,0.6); }
-    .light.yellow { background: #febc2e; box-shadow: 0 0 7px rgba(254,188,46,0.6); }
-    .light.green  { background: #28c840; box-shadow: 0 0 7px rgba(40,200,64,0.6); }
-    .light.red:hover    { box-shadow: 0 0 16px rgba(255,95,87,1); filter: brightness(1.2); }
-    .light.yellow:hover { box-shadow: 0 0 16px rgba(254,188,46,1); filter: brightness(1.2); }
-    .light.green:hover  { box-shadow: 0 0 16px rgba(40,200,64,1);  filter: brightness(1.2); }
-
-    .card-body {
-      padding: 32px 26px 28px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+    }
+
+    /* title bar — lights on LEFT */
+    .titlebar {
+      background: rgba(20,20,20,0.9);
+      border-bottom: 1px solid #1e1e1e;
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .lights { display: flex; gap: 7px; }
+    .light {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      transition: filter 0.15s, transform 0.15s;
+      cursor: default;
+    }
+    .light:hover { transform: scale(1.2); }
+    .light.red    { background: #ff5f57; box-shadow: 0 0 6px rgba(255,95,87,0.5); }
+    .light.yellow { background: #febc2e; box-shadow: 0 0 6px rgba(254,188,46,0.5); }
+    .light.green  { background: #28c840; box-shadow: 0 0 6px rgba(40,200,64,0.5); }
+    .light.red:hover    { box-shadow: 0 0 14px rgba(255,95,87,1); filter: brightness(1.2); }
+    .light.yellow:hover { box-shadow: 0 0 14px rgba(254,188,46,1); filter: brightness(1.2); }
+    .light.green:hover  { box-shadow: 0 0 14px rgba(40,200,64,1);  filter: brightness(1.2); }
+
+    .titlebar-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      margin-left: 2px;
+    }
+
+    /* body fills remaining height */
+    .card-body {
+      flex: 1;
+      padding: 22px 22px 18px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       gap: 20px;
     }
 
     .avatar {
-      width: 90px; height: 90px;
+      flex-shrink: 0;
+      width: 72px; height: 72px;
       border-radius: 50%;
       background: #1a1a1a;
       border: 1px solid #2e2e2e;
@@ -121,88 +129,86 @@
       align-items: center;
       justify-content: center;
       filter: grayscale(1);
-      box-shadow: 0 0 0 4px #111;
-      transform: translateZ(40px);
+      box-shadow: 0 0 0 3px #111;
+      transform: translateZ(30px);
     }
     .avatar svg { width: 58%; opacity: 0.28; }
 
     .info {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-      transform: translateZ(25px);
+      gap: 7px;
+      transform: translateZ(20px);
     }
 
     .name {
-      font-size: 1.35rem;
+      font-size: 1.1rem;
       font-weight: 500;
-      color: #e2e2e2;
-      letter-spacing: 0.06em;
-      text-shadow: 0 0 24px rgba(255,255,255,0.1);
+      color: #e0e0e0;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 20px rgba(255,255,255,0.08);
     }
 
     .meta {
-      font-size: 0.72rem;
-      color: #383838;
+      font-size: 0.65rem;
+      color: #333;
       letter-spacing: 0.1em;
-      line-height: 1.6;
+      line-height: 1.7;
     }
-
-    .spacer { height: 18px; }
 
     .divider {
       width: 100%;
       height: 1px;
       background: linear-gradient(90deg, transparent, #1e1e1e, transparent);
+      flex-shrink: 0;
     }
 
     .footer {
-      padding: 14px 26px;
+      padding: 10px 22px;
       display: flex;
       align-items: center;
-      gap: 9px;
-      transform: translateZ(12px);
+      gap: 8px;
+      flex-shrink: 0;
+      transform: translateZ(10px);
     }
     .dot {
-      width: 6px; height: 6px;
+      width: 5px; height: 5px;
       border-radius: 50%;
       background: #fff;
-      opacity: 0.15;
+      opacity: 0.12;
       animation: blink 2.5s infinite;
     }
     .footer-text {
-      font-size: 0.64rem;
+      font-size: 0.58rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #2d2d2d;
+      color: #282828;
     }
 
     .credit {
       position: fixed;
-      bottom: 1.6rem;
+      bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #444;
+      color: #333;
       white-space: nowrap;
       z-index: 10;
       transition: color 0.3s;
     }
-    .credit:hover { color: #888; }
-    .heart { color: #fff; opacity: 0.4; }
+    .credit:hover { color: #777; }
+    .heart { color: #fff; opacity: 0.35; }
 
     @keyframes blink {
-      0%, 100% { opacity: 0.1; }
-      50%       { opacity: 0.45; }
+      0%, 100% { opacity: 0.08; }
+      50%       { opacity: 0.4; }
     }
   </style>
 </head>
 <body>
 
-  <!-- video background — just name your file bg.mp4 -->
   <video autoplay muted loop playsinline id="bg">
     <source src="bg.mp4" type="video/mp4">
   </video>
@@ -212,12 +218,12 @@
     <div class="window" id="card">
 
       <div class="titlebar">
-        <span class="titlebar-label">jack r</span>
         <div class="lights">
           <div class="light red"></div>
           <div class="light yellow"></div>
           <div class="light green"></div>
         </div>
+        <span class="titlebar-label">jack r</span>
       </div>
 
       <div class="card-body">
@@ -231,7 +237,6 @@
           <div class="name">jack r</div>
           <div class="meta">est. &mdash; mar 24, 2026</div>
         </div>
-        <div class="spacer"></div>
       </div>
 
       <div class="divider"></div>
@@ -276,7 +281,7 @@
       cX += (tX - cX) * EASE;
       cY += (tY - cY) * EASE;
       card.style.transform =
-        `rotateX(${cX}deg) rotateY(${cY}deg) scale(${over ? 1.04 : 1})`;
+        `rotateX(${cX}deg) rotateY(${cY}deg) scale(${over ? 1.03 : 1})`;
       requestAnimationFrame(tick);
     })();
   </script>
