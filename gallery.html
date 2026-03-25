@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>jack r — gallery</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/transitions.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh; background: #080808;
       display: flex; flex-direction: column; align-items: center;
-      font-family: 'DM Mono', monospace; overflow: hidden;
+      font-family: 'DM Mono', monospace; overflow-x: hidden; overflow-y: auto;
     }
     #bg {
       position: fixed; inset: 0; width: 100%; height: 100%;
@@ -43,10 +44,57 @@
     }
     .nav-item:hover { color: #aaa; }
     .nav-item.active { color: #e0e0e0; }
-    .main {
-      flex: 1; display: flex; align-items: center;
-      justify-content: center; width: 100%; z-index: 3;
+
+    .gallery {
+      position: relative; z-index: 3;
+      width: 100%; max-width: 900px;
+      padding: 140px 40px 160px;
+      display: flex; flex-direction: column;
     }
+
+    .photo-row {
+      display: flex;
+      width: 100%;
+      margin-bottom: 140px;
+    }
+    .photo-row.left  { justify-content: flex-start; padding-left: 40px; }
+    .photo-row.right { justify-content: flex-end;   padding-right: 40px; }
+
+    .photo {
+      width: 320px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+      cursor: pointer;
+      will-change: transform;
+      opacity: 0;
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34,1.2,0.64,1),
+                  box-shadow 0.5s ease;
+    }
+    .photo.left  { transform: rotate(-4deg) translateY(30px); }
+    .photo.right { transform: rotate(4deg)  translateY(30px); }
+
+    .photo.visible.left  { opacity: 1; transform: rotate(-4deg)  translateY(0); }
+    .photo.visible.right { opacity: 1; transform: rotate(4deg)   translateY(0); }
+
+    .photo:hover {
+      box-shadow: 0 0 0 1px #333,
+                  0 16px 60px rgba(0,0,0,0.9),
+                  0 0 80px rgba(255,255,255,0.06);
+    }
+    .photo.left:hover  { transform: rotate(-1.5deg) scale(1.04) !important; }
+    .photo.right:hover { transform: rotate(1.5deg)  scale(1.04) !important; }
+
+    .photo img {
+      display: block; width: 100%; height: 240px;
+      object-fit: cover;
+      filter: grayscale(0.15) brightness(0.85);
+      transition: filter 0.4s ease;
+      pointer-events: none; user-select: none;
+    }
+    .photo:hover img { filter: grayscale(0) brightness(1); }
+
     .credit {
       position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
       font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
@@ -69,12 +117,34 @@
     <a class="nav-item active" href="/gallery">Gallery</a>
   </nav>
 
-  <div class="main">
-    <!-- your gallery content goes here -->
+  <div class="gallery">
+    <!--
+      ADD YOUR IMAGES: copy a .photo-row and change the img src.
+      Alternate .right and .left to keep the zigzag pattern.
+    -->
+    <div class="photo-row right">
+      <div class="photo right"><img src="photo1.jpg" alt=""/></div>
+    </div>
+    <div class="photo-row left">
+      <div class="photo left"><img src="photo2.jpg" alt=""/></div>
+    </div>
+    <div class="photo-row right">
+      <div class="photo right"><img src="photo3.jpg" alt=""/></div>
+    </div>
+    <div class="photo-row left">
+      <div class="photo left"><img src="photo4.jpg" alt=""/></div>
+    </div>
+    <div class="photo-row right">
+      <div class="photo right"><img src="photo5.jpg" alt=""/></div>
+    </div>
+    <div class="photo-row left">
+      <div class="photo left"><img src="photo6.jpg" alt=""/></div>
+    </div>
   </div>
 
   <div class="credit">made with <span class="heart">&lt;3</span> by jack</div>
 
+  <script src="/transitions.js" defer></script>
   <script>
     const nav    = document.getElementById('nav');
     const bubble = document.getElementById('bubble');
@@ -93,6 +163,18 @@
       item.addEventListener('mouseenter', () => moveBubble(item));
       item.addEventListener('mouseleave', () => { const a = nav.querySelector('.nav-item.active'); if (a) moveBubble(a); });
     });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.photo').forEach(p => observer.observe(p));
   </script>
 </body>
 </html>
