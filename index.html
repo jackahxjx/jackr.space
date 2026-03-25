@@ -19,18 +19,38 @@
       overflow: hidden;
     }
 
+    /* video background */
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.35;
+      filter: grayscale(1);
+    }
+
+    /* dark overlay so card stays readable */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,8,0.55);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* grain */
     body::before {
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       opacity: 0.04;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
     }
 
-    /* scene provides the perspective — the card rotates inside it */
     .scene {
-      z-index: 1;
+      z-index: 3;
       margin-bottom: 2.5rem;
       perspective: 1000px;
       perspective-origin: 50% 50%;
@@ -38,12 +58,13 @@
 
     .window {
       width: 420px;
-      background: #0f0f0f;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid #2a2a2a;
       border-radius: 16px;
       overflow: hidden;
       transform-style: preserve-3d;
-      /* start flat */
       transform: rotateX(0deg) rotateY(0deg);
       box-shadow:
         0 8px 20px rgba(0,0,0,0.6),
@@ -52,7 +73,7 @@
     }
 
     .titlebar {
-      background: #161616;
+      background: rgba(22,22,22,0.9);
       border-bottom: 1px solid #1e1e1e;
       padding: 14px 18px;
       display: flex;
@@ -165,18 +186,14 @@
       font-size: 0.62rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #252525;
+      color: #444;
       white-space: nowrap;
       z-index: 10;
       transition: color 0.3s;
     }
-    .credit:hover { color: #555; }
+    .credit:hover { color: #888; }
     .heart { color: #fff; opacity: 0.4; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: rotateX(0) rotateY(0) translateY(16px) scale(0.97); }
-      to   { opacity: 1; transform: rotateX(0) rotateY(0) translateY(0) scale(1); }
-    }
     @keyframes blink {
       0%, 100% { opacity: 0.1; }
       50%       { opacity: 0.45; }
@@ -184,6 +201,12 @@
   </style>
 </head>
 <body>
+
+  <!-- video background — just name your file bg.mp4 -->
+  <video autoplay muted loop playsinline id="bg">
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+  <div id="overlay"></div>
 
   <div class="scene" id="scene">
     <div class="window" id="card">
@@ -237,8 +260,8 @@
     scene.addEventListener('mousemove', e => {
       over = true;
       const r  = scene.getBoundingClientRect();
-      const nx = ((e.clientX - r.left) / r.width)  * 2 - 1; // -1 to 1
-      const ny = ((e.clientY - r.top)  / r.height) * 2 - 1; // -1 to 1
+      const nx = ((e.clientX - r.left) / r.width)  * 2 - 1;
+      const ny = ((e.clientY - r.top)  / r.height) * 2 - 1;
       tY =  nx * MAX;
       tX = -ny * MAX;
     });
@@ -252,11 +275,8 @@
     (function tick() {
       cX += (tX - cX) * EASE;
       cY += (tY - cY) * EASE;
-
-      // ONLY the card rotates — shadow stays static
       card.style.transform =
         `rotateX(${cX}deg) rotateY(${cY}deg) scale(${over ? 1.04 : 1})`;
-
       requestAnimationFrame(tick);
     })();
   </script>
