@@ -1,0 +1,14 @@
+body {
+  animation: slideIn 0.45s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
