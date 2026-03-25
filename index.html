@@ -92,7 +92,7 @@
 
     .scene { perspective: 1000px; perspective-origin: 50% 50%; }
     .window {
-      width: 480px; height: 290px;
+      width: 480px; height: 310px;
       background: rgba(15,15,15,0.82);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -145,9 +145,21 @@
     .name { font-size: 1.1rem; font-weight: 500; color: #e0e0e0; letter-spacing: 0.05em; }
     .meta { font-size: 0.65rem; color: #333; letter-spacing: 0.1em; line-height: 1.7; }
     .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #1e1e1e, transparent); flex-shrink: 0; }
-    .footer { padding: 10px 22px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; transform: translateZ(10px); }
+
+    .footer {
+      padding: 10px 22px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; transform: translateZ(10px);
+    }
+    .footer-left { display: flex; align-items: center; gap: 8px; }
     .dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: 0.12; animation: blink 2.5s infinite; }
     .footer-text { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #282828; }
+    .footer-right { display: flex; align-items: center; gap: 14px; }
+    .footer-tag {
+      font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #2a2a2a; display: flex; align-items: center; gap: 5px;
+    }
+    .footer-tag span { color: #333; }
 
     .credit {
       position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
@@ -198,8 +210,14 @@
         </div>
         <div class="divider"></div>
         <div class="footer">
-          <div class="dot"></div>
-          <span class="footer-text">online</span>
+          <div class="footer-left">
+            <div class="dot"></div>
+            <span class="footer-text">online</span>
+          </div>
+          <div class="footer-right">
+            <div class="footer-tag">loc <span>NJ, USA</span></div>
+            <div class="footer-tag">status <span>STUDENT</span></div>
+          </div>
         </div>
       </div>
     </div>
